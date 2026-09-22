@@ -19,13 +19,12 @@ def create_db(user_dict=None):
     form = DBCreate()
     if form.validate_on_submit():
         db_type = form.db_type.data
-        name = form.name.data
+        name = form.name.data.lower()
+        form.name.data = name
         if not name.isalnum():
             abort(400)
         password = gen_password()
         if db_type == "POSTGRES":
-            name = name.lower()
-            form.name.data = name
             with postgres_db.connect().execution_options(
                 isolation_level="AUTOCOMMIT"
             ) as connection:
