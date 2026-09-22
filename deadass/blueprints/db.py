@@ -24,6 +24,8 @@ def create_db(user_dict=None):
             abort(400)
         password = gen_password()
         if db_type == "POSTGRES":
+            name = name.lower()
+            form.name.data = name
             with postgres_db.connect().execution_options(
                 isolation_level="AUTOCOMMIT"
             ) as connection:
